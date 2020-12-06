@@ -2,7 +2,7 @@
 
 > Restore scroll positions on components after re-mount with a single hook.
 
-[![NPM](https://img.shields.io/npm/v/react-scroll-restorer.svg)](https://www.npmjs.com/package/react-scroll-restorer) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-scroll-restorer.svg)](https://www.npmjs.com/package/react-scroll-restorer)
 
 ## Install
 
@@ -12,16 +12,33 @@ npm install --save react-scroll-restorer
 
 ## Usage
 
+### App.js
+
 ```jsx
-import React, { Component } from 'react'
+import { ScrollRestorer } from 'react-scroll-restorer';
 
-import MyComponent from 'react-scroll-restorer'
-import 'react-scroll-restorer/dist/index.css'
+const App = () => {
+  return <ScrollRestorer>
+      {/* child components ... */}
+  </ScrollRestorer>
+}
+```
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
+### ChildComponent.js
+
+```jsx
+import { useScrollRestorer } from 'react-scroll-restorer';
+
+// ChildComponent with scrollable content
+const ChildComponent = () => {
+  useScrollRestorer("unique-key");
+  // "unique-key" has to be unique for each instance.
+  // If you are using multiple instances, then pass
+  // a unique key via props from parent component.
+
+  return <div>
+    {/* scrollable content ... */}
+  </div>;
 }
 ```
 
