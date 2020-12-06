@@ -1,13 +1,13 @@
-import React from 'react'
+import React from "react";
 
-import { ScrollRestorer, useScrollRestorer } from 'react-scroll-restorer';
+import { ScrollRestorer, useScrollRestorer } from "react-scroll-restorer";
 
 // ComponentOne with scrollable content
 const ComponentOne = () => {
-  useScrollRestorer("ComponentOne");
+  useScrollRestorer("ComponentOne"); // simple usage
 
   return (
-    <p style={{paddingTop: '36px', textAlign: 'center'}}>
+    <p style={{ paddingTop: "36px", textAlign: "center" }}>
       {[...Array(100).keys()].map((num) => (
         <span key={num + 1}>
           ComponentOne • {num + 1}
@@ -16,39 +16,57 @@ const ComponentOne = () => {
       ))}
     </p>
   );
-}
+};
 
 // ComponentTwo with scrollable content
 const ComponentTwo = () => {
-  useScrollRestorer("ComponentTwo");
+  const [loading, setLoading] = React.useState(true);
+
+  // usage with dependencies. restores scroll whenever loading is updated.
+  useScrollRestorer("ComponentTwo", [loading]);
+
+  React.useEffect(() => {
+    window.setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, []);
 
   return (
-    <p style={{paddingTop: '36px', textAlign: 'center'}}>
-      {[...Array(100).keys()].map((num) => (
-        <span key={num + 1}>
-          ComponentTwo • {num + 1}
-          <br />
-        </span>
-      ))}
+    <p style={{ paddingTop: "36px", textAlign: "center" }}>
+      {loading
+        ? "Loading ..."
+        : [...Array(100).keys()].map((num) => (
+            <span key={num + 1}>
+              ComponentTwo • {num + 1}
+              <br />
+            </span>
+          ))}
     </p>
   );
-}
+};
 
 const App = () => {
   const [toggleSwitch, setToggleSwitch] = React.useState(true);
 
-  return <ScrollRestorer>
+  return (
+    <ScrollRestorer>
       <button
-        style={{ 
-          position: "fixed", top: "0", left: '50%', 
-          transform: 'translateX(-50%)', padding: "8px", marginTop: '8px' }}
+        style={{
+          position: "fixed",
+          top: "0",
+          left: "50%",
+          transform: "translateX(-50%)",
+          padding: "8px",
+          marginTop: "8px"
+        }}
         onClick={(_) => {
           setToggleSwitch(!toggleSwitch);
         }}>
         Show {toggleSwitch ? "ComponentTwo" : "ComponentOne"}
       </button>
       {toggleSwitch ? <ComponentOne /> : <ComponentTwo />}
-  </ScrollRestorer>
-}
+    </ScrollRestorer>
+  );
+};
 
-export default App
+export default App;
