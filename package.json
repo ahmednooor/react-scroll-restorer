@@ -1,6 +1,6 @@
 {
   "name": "react-scroll-restorer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Restore scroll positions on components after re-mount with a single hook.",
   "author": "ahmednooor",
   "license": "MIT",
